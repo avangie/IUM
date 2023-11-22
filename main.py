@@ -7,7 +7,7 @@ def filterGenres(artists, func=checkLanguage):
     for artist in artists:
         filteredLanguages = []
         for genre in artist['genres']:
-            language = checkLanguage(genre)
+            language = func(genre)
             if language == 'EN':
                 filteredLanguages.append(genre)
             else:
