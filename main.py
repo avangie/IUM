@@ -1,7 +1,7 @@
 from jsonOperations import getObjectsFromJson
 from languageChecker import checkLanguage
 
-artists = getObjectsFromJson('artists2.jsonl')
+artists = getObjectsFromJson('/Users/pawko/IUM_23Z/ium_23z/artists2.jsonl')
 
 def filterGenres(artists, func=checkLanguage):
     for artist in artists:
@@ -27,15 +27,12 @@ def genresToDict(artists):
 
 def filteringFunction(pair):
     key, value = pair
-    return value < 10
-
-def sortedFunction(pair1, pair2):
-    _, value1 = pair1
-    _, value2 = pair2
-    return value1 - value2
+    return value <= 1
 
 dictionary = genresToDict(artists)
-print(dictionary.items())
-# print(dict(sorted(dictionary.items())))
-# print(len(dictionary))
-# print(dict(filter(filteringFunction, dictionary.items())))
+
+# Sorts values from least to most common
+print(dict(sorted(dictionary.items(), key=lambda item: item[1])))
+
+# Filter values depending on given function
+print(len(dict(filter(filteringFunction, dictionary.items()))))
