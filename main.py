@@ -1,38 +1,27 @@
-from jsonOperations import getObjectsFromJson
-from languageChecker import checkLanguage
+from jsonOperations import getObjectsFromJson, writeToNewJsonFile, writeToNewJsonFile2
+from genresOperations import *
 
-artists = getObjectsFromJson('/Users/pawko/IUM_23Z/ium_23z/artists2.jsonl')
+artists = getObjectsFromJson('artists.jsonl')
 
-def filterGenres(artists, func=checkLanguage):
-    for artist in artists:
-        filteredLanguages = []
-        for genre in artist['genres']:
-            language = func(genre)
-            if language == 'EN':
-                filteredLanguages.append(genre)
-            else:
-                pass
-        artist['genres'] = filteredLanguages
-    return artists
+new_artists = getObjectsFromJson('artists_modified.jsonl')
 
-def genresToDict(artists):
-    genresDictionary = {}
-    for artist in artists:
-        for genre in artist['genres']:
-            if genre in genresDictionary:
-                genresDictionary[genre] += 1
-            else:
-                genresDictionary[genre] = 1
-    return genresDictionary
+number = 15
+words = ['rock', 'k-pop', 'pop', 'hip hop', 'folk', 'jazz', 'country', 'reggae', 'rap', 'soul', 'punk', 'house', 'trap', 'metal', 'techno', 'indie']
+dict = artists.copy()
 
-def filteringFunction(pair):
-    key, value = pair
-    return value <= 1
+for word in words:
+    list = findGroups(dict, word)
+    dict = replaceToGenres(dict, list, word)
+low_occurs_genders = getEveryGenreBelowOccursNumber(dict, number)
+dict = removeFromGenres(dict, low_occurs_genders)
+dict = cleanGenres(dict)
+popularity = findPopularity(dict)
+dict = chooseOnlyOneGenre(dict, popularity)
+dict = cleanArtists(dict)
+writeToNewJsonFile2(dict)
 
-dictionary = genresToDict(artists)
+# print(sorted(findPopularity(dict)))
 
-# Sorts values from least to most common
-print(dict(sorted(dictionary.items(), key=lambda item: item[1])))
 
-# Filter values depending on given function
-print(len(dict(filter(filteringFunction, dictionary.items()))))
+print(len(genresToDict(new_artists)))
+# print(len(getEveryGenreBelowOccursNumber(artists, 15)))
