@@ -15,10 +15,6 @@ def getObjectsFromJson(path_to_file='artists.jsonl'):
 
 def writeToNewJsonFile(dictionary, path_to_file='artists_modified.jsonl'):
     with open(path_to_file, 'w') as outfile:
-        json.dump(dictionary, outfile)
-
-def writeToNewJsonFile2(dictionary, path_to_file='artists_modified.jsonl'):
-    with open(path_to_file, 'w') as outfile:
         for item in dictionary:
             json.dump(item, outfile)
             outfile.write('\n')
