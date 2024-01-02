@@ -1,13 +1,15 @@
 from jsonOperations import getObjectsFromJson, writeToNewJsonFile
 from genresOperations import *
-from tracksOperations import joinTracksWithArtists3
+from tracksOperations import joinTracksWithArtists, tracksSampler
+
 import numpy as np
 
-artists = getObjectsFromJson('artists.jsonl')
-tracks = getObjectsFromJson('tracks.jsonl')
-new_artists = getObjectsFromJson('artists_modified.jsonl')
+# artists = getObjectsFromJson('data/artists.jsonl')
+# tracks = getObjectsFromJson('data/tracks.jsonl')
+# new_artists = getObjectsFromJson('data/artists_modified.jsonl')
+trakcs_with_genre = getObjectsFromJson('data/tracks_with_genre.jsonl')
 
-def firstWay(dictionary, path='artists_modified.jsonl'):
+def firstWay(dictionary, path='data/artists_modified.jsonl'):
     dict = dictionary.copy()
     words = ['rock', 'k-pop', 'pop', 'hip hop', 'folk', 'jazz', 'country', 'reggae', 'rap', 'soul', 'punk', 'house', 'trap', 'metal', 'techno', 'indie', 'opm']
     number = 15
@@ -23,7 +25,7 @@ def firstWay(dictionary, path='artists_modified.jsonl'):
     writeToNewJsonFile(dict, path)
 
 
-def secondWay(dictionary, path='artists_modified.jsonl'):
+def secondWay(dictionary, path='data/artists_modified.jsonl'):
     dict = dictionary.copy()
     popularity = findPopularity(dict)
     dict = chooseOnlyOneGenre(dict, popularity)
@@ -51,4 +53,6 @@ def secondWay(dictionary, path='artists_modified.jsonl'):
 # print(sorted_dict)
 # print(len(sorted_dict))
 
-joinTracksWithArtists3(new_artists, tracks)
+# joinTracksWithArtists3(new_artists, tracks)
+
+writeToNewJsonFile(tracksSampler(trakcs_with_genre), 'data/sampled_tracks.jsonl')

@@ -1,6 +1,8 @@
 from jsonOperations import *
+import random
+from copy import deepcopy
 
-def joinTracksWithArtists3(artistsDictionary, tracksDictionary):
+def joinTracksWithArtists(artistsDictionary, tracksDictionary):
     artists_mapping = {artist['id']: artist for artist in artistsDictionary}
 
     result_list = []
@@ -32,4 +34,35 @@ def joinTracksWithArtists3(artistsDictionary, tracksDictionary):
             }
             result_list.append(result_item)
 
-    writeToNewJsonFile(result_list, 'tracks_with_genre.jsonl')
+    writeToNewJsonFile(result_list, 'data/tracks_with_genre.jsonl')
+
+# idea of this function is to find the minimum representation number of tracks for some genre and to sample
+# from other genres tracks to have exact same number of tracks for every genre
+def tracksSampler(dictionary):
+    converted_dictionary = genresDictionary(dictionary)
+    min_occurance = min(len(lst) for lst in converted_dictionary.values())
+    new_dict = sample(converted_dictionary, min_occurance)
+    print(f"Minimum occurance: {min_occurance}")
+    return new_dict
+
+def genresDictionary(dictionary):
+    new_dict = {}
+    for track in dictionary:
+        genre = track['genre'][0]
+        if genre in new_dict:
+            new_dict[genre].append(track)
+        else:
+            new_dict[genre] = []
+    return new_dict
+
+def sample(dictionary, number):
+    result_list = []
+
+    for key, values in dictionary.items():
+        if len(values) >= number:
+            sampled_elements = random.sample(values, number)
+            result_list.extend(sampled_elements)
+        else:
+            result_list.extend(values.copy())
+
+    return result_list
