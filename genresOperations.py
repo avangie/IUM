@@ -46,12 +46,30 @@ def chooseOnlyOneGenre(dictionary, popularity):
 def chooseMostPopular(list, popularity):
     most_popular = None
     most_popular_occurs = -1
+    genre_occurance = {}
     for genre in list:
         num_occurs = popularity[genre]
+        if genre in genre_occurance:
+            genre_occurance[genre] += 1
+        else:
+            genre_occurance[genre] = 1
         if num_occurs > most_popular_occurs:
             most_popular = genre
             most_popular_occurs = num_occurs
-    return [most_popular]
+    genres_with_most_occurances = [genre for genre in genre_occurance if genre_occurance[genre] == max(genre_occurance.values())]
+    if most_popular in genres_with_most_occurances:
+        return [most_popular]
+    else:
+        genres_dict = {genre: popularity[genre] for genre in genres_with_most_occurances}
+        return [genre for genre in genres_dict.keys() if genres_dict[genre] == max(genres_dict.values())]
+
+def outerJoinGenres(dictionary, list):
+    new_dict = dictionary.copy()
+    for artist in new_dict:
+        for genre in artist['genres']:
+            if genre not in list:
+                artist['genres'].remove(genre)
+    return new_dict
 
 def findPopularity(dictionary):
     genres = {}

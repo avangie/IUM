@@ -30,7 +30,7 @@ def joinTracksWithArtists(artistsDictionary, tracksDictionary):
                 "valence": track['valence'],
                 "tempo": track['tempo'],
                 "time_signature": track['time_signature'],
-                "genre": genre
+                "genres": genre
             }
             result_list.append(result_item)
 
@@ -41,14 +41,14 @@ def joinTracksWithArtists(artistsDictionary, tracksDictionary):
 def tracksSampler(dictionary):
     converted_dictionary = genresDictionary(dictionary)
     min_occurance = min(len(lst) for lst in converted_dictionary.values())
-    new_dict = sample(converted_dictionary, min_occurance)
+    new_dict = sample(converted_dictionary, min_occurance*50)
     print(f"Minimum occurance: {min_occurance}")
     return new_dict
 
 def genresDictionary(dictionary):
     new_dict = {}
     for track in dictionary:
-        genre = track['genre'][0]
+        genre = track['genres'][0]
         if genre in new_dict:
             new_dict[genre].append(track)
         else:
