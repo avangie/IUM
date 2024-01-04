@@ -28,11 +28,8 @@ def predict(item: Item):
 @app.post("/predict_sgd")
 def predict_sgd(item: Item):
     try:
-        # Normalizacja nowych danych
         new_song = np.array(item.features).reshape(1, -1)
         new_song = scaler_sgd.transform(new_song)
-        
-        # Przewidywanie gatunku dla nowej piosenki
         predicted_genre = model_sgd.predict(new_song)
         
         return {"predicted_genre": str(predicted_genre[0])}
