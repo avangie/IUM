@@ -3,6 +3,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from jsonOperations import *
+import joblib
 
 data = getObjectsFromJson('data/tracks_with_genre.jsonl')
 
@@ -32,6 +33,9 @@ y_pred = knn_classifier.predict(X_test)
 # Ocena dokładności modelu
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Dokładność modelu: {accuracy}")
+
+joblib.dump(knn_classifier, "models/scikit_knn_model.joblib")
+joblib.dump(scaler, "models/scikit_knn_scaler.joblib")
 
 # Przykład przewidywania gatunku dla nowej piosenki
 new_song = [45, 260000, 0, 0.6, 0.7, 3, -6, 0.1, 0.2, 0.0, 0.3, 0.8, 120, 4]
