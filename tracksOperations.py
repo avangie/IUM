@@ -1,6 +1,5 @@
 from jsonOperations import *
 import random
-from copy import deepcopy
 
 def joinTracksWithArtists(artistsDictionary, tracksDictionary):
     artists_mapping = {artist['id']: artist for artist in artistsDictionary}

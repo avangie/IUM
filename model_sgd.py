@@ -13,7 +13,7 @@ features = []
 labels = []
 
 for song in data:
-    features.append([song["popularity"], song["duration_ms"], song["explicit"], song["danceability"], song["energy"], song["key"], song["loudness"], song["speechiness"], song["acousticness"], song["instrumentalness"], song["liveness"], song["valence"], song["tempo"], song["time_signature"]])
+    features.append([song["popularity"], song["duration_ms"], song["explicit"], song["danceability"], song["key"], song["loudness"], song["speechiness"], song["acousticness"], song["instrumentalness"], song["liveness"], song["valence"], song["tempo"], song["time_signature"]])
     labels.append(song["genres"][0])
 
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.2, random_state=42)
@@ -31,7 +31,7 @@ print(f"Dokładność modelu: {accuracy}")
 joblib.dump(sgd_classifier, "models/scikit_sgd_model.joblib")
 joblib.dump(scaler, "models/scikit_sgd_scaler.joblib")
 
-new_song = [45, 260000, 0, 0.6, 0.7, 3, -6, 0.1, 0.2, 0.0, 0.3, 0.8, 120, 4]
+new_song = [45, 260000, 0, 0.6, 3, -6, 0.1, 0.2, 0.0, 0.3, 0.8, 120, 4]
 new_song = scaler.transform([new_song])
 predicted_genre = sgd_classifier.predict(new_song)
 print(f"Przewidziany gatunek dla nowej piosenki: {predicted_genre[0]}")

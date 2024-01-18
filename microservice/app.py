@@ -10,6 +10,8 @@ model_knn = joblib.load("../models/scikit_knn_model.joblib")
 scaler_knn = joblib.load("../models/scikit_knn_scaler.joblib")
 model_sgd = joblib.load("../models/scikit_sgd_model.joblib")
 scaler_sgd = joblib.load("../models/scikit_sgd_scaler.joblib")
+model_knn_randomsearch = joblib.load("../models/scikit_knn_model_with_hyperparameters.joblib")
+scaler_knn_randomsearch = joblib.load("../models/scikit_knn_scaler_with_hyperparameters.joblib")
 
 class Item(BaseModel):
     features: List[float]
@@ -31,6 +33,17 @@ def predict_sgd(item: Item):
         new_song = np.array(item.features).reshape(1, -1)
         new_song = scaler_sgd.transform(new_song)
         predicted_genre = model_sgd.predict(new_song)
+        
+        return {"predicted_genre": str(predicted_genre[0])}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+@app.post("/predict_knn_randomsearch")
+def predict_knn_randomsearch(item: Item):
+    try:
+        new_song = np.array(item.features).reshape(1, -1)
+        new_song = scaler_knn_randomsearch.transform(new_song)
+        predicted_genre = model_knn_randomsearch.predict(new_song)
         
         return {"predicted_genre": str(predicted_genre[0])}
     except Exception as e:
