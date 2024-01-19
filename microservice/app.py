@@ -1,5 +1,4 @@
 from fastapi import FastAPI, HTTPException, File,  UploadFile
-from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 import joblib
 import numpy as np
@@ -8,7 +7,6 @@ import csv
 from datetime import datetime
 import json
 import logging
-from typing import List
 
 app = FastAPI()
 
@@ -81,9 +79,9 @@ async def ab_test(file: UploadFile = File(...)):
         file_content = await file.read()
         file_content.decode()
         for record in file_content.decode().splitlines():
-            # Randomly choose a model variation for A/B testing
+            # randomly choose a model variation for A/B testing
             variation = random.choice(list(model_variations.keys()))
             ab_test_single_record(record, variation)
-        return {"message": "Tests done, see model_logs.csv for results"}
+        return {"message": "Tests done, see model_logs.csv for results and analysis.py for analysis"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))   
