@@ -60,7 +60,7 @@ print(data[0])
 print("\nPrzetworzone dane:")
 print(processed_data[0])
 
-output_file_path = "data/tracks_with_genre_tests.jsonl"
+output_file_path = "microservice/tracks_with_genre_tests.jsonl"
 
 with open(output_file_path, "w") as output_file:
     for entry in processed_data:
